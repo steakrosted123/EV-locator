@@ -1,0 +1,65 @@
+
+<% layout('layout/boilerplate') %>
+
+<div class="row">
+    <h1 class="text-center">New Station</h1>
+    <div class="col-md-6 offset-md-3">
+        <form action="/stations/addnew" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name of the station</label>
+                <input class="form-control" type="text" id="name" name="name" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="location" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+           
+            <div class="mb-3">
+                <label class="form-label" for="price">Station Price</label>
+                <div class="input-group">
+                    <span class="input-group-text" id="price-label">&#x20B9;</span>
+                    <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
+                        aria-describedby="price-label" name="price" required>
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="description"
+                    required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-file custom-file">
+                    <input type="file" class="form-file-input" id="image" name="image" multiple>
+                    <label class="form-file-label" for="image">
+                        <span class="form-file-text custom-file-label"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fc" class="form-label">Fastcharging </label>
+                <select name="fastcharging" id="fc" class="form-select" required>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add Station</button>
+            </div>
+        </form>
+        <a href="/stations/view">All Stations</a>
+    </div>
+</div>

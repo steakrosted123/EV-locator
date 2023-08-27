@@ -1,0 +1,136 @@
+<% layout('layout/boilerplate') %>
+<link rel="stylesheet" href="/stylesheet/stars.css">
+<div class="row">
+    <div class="col-6 ">
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <% sta.images.forEach((img,i) => {  %>
+                        <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                            <img src="<%=img.url%>" class="d-block w-100" >
+                        </div>
+                    <% }) %>
+                  
+                </div>
+                <% if(sta.images.length > 1) { %>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                    </button>
+                <% } %>
+              </div>
+            
+
+            <div class="card" >
+                                
+                    
+                    
+                <div class="card-body">
+                  <h5 class="card-title"><%=sta.name%></h5>
+                  <p class="card-text"><%=sta.description%></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Location : <%=sta.location%></li>
+                  <li class="list-group-item">Price : &#8377;<%=sta.price%></li>
+                  <li class="list-group-item">Fastcharging : <%=sta.fastcharging%></li>
+                  <li class="list-group-item"> Submitted by : <%=sta.author.username%></li>
+                  
+                </ul>
+                <div class="card-body gap-2 btn-group">
+                    <%if(currentUser && sta.author.equals(currentUser._id)) {%>
+                        <form action="/stations/<%=sta.id%>/delete?_method=DELETE" method="post">
+                            <button  class="btn btn-danger">Delete</button>
+                        </form>
+                    <%}%>
+                    
+                    <form action="/stations/view" method="get">
+                        <button  class="btn btn-outline-warning">Back</button>
+                    </form>
+                    
+                    
+                    <%if(currentUser && sta.author.equals(currentUser._id)) {%>
+                        <form action="/stations/<%=sta.id%>/edit" method="get">
+                            <button class="btn btn-outline-primary" >Edit</button>
+                        </form>
+                    <%}%>
+                </div>
+              </div>
+        </div>
+        <div class="col-6">
+                <div id='map' style='width: 400px; height: 300px;'></div>
+
+                <form action="/reviews/stations/<%=sta.id%>/" method="POST" class="row g-3 needs-validation" novalidate>
+                    <div class="mb-3">
+                       
+                        <legend> Leave a Rating:</legend>
+                        <fieldset class="starability-basic">
+                            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                            <label for="first-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                            <label for="first-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                            <label for="first-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                            <label for="first-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                            <label for="first-rate5" title="Amazing">5 stars</label>
+                        </fieldset>
+                        
+                        
+                        <label class="form-label" for="comment">Comment</label>
+                        <input class="form-control" type="text" name="review[comment]" id="commment" >
+                        
+                        
+                    </div>   
+                    <div class="mb-3">
+                        <button class="btn btn-success" >Submit review</button>
+                    </div>
+                </form>
+                
+
+
+          <% for(let rev of sta.review) { %>
+              <div class="card mb-3">
+                  <div class="card-body">
+                      <h5 class="card-title">Rating : <%=rev.rating%></h5>
+                      <p class="starability-result" data-rating="<%=rev.rating%>"></p>
+                      <p>Review : <%=rev.comment%></p>
+                      <p>Review by: <%=rev.author.username%></p>
+                      <%if(rev.author.equals(currentUser)) {%>
+                        <form action="/reviews/stations/<%=sta.id%>/<%=rev.id%>?_method=DELETE" method="post">
+                            <button class="btn btn-danger" >Delete review</button>
+                        </form> 
+                      <%}%>
+                   </div>
+              </div>
+          <% } %>
+
+        </div>
+              
+     </div>
+</div>
+<script>
+    const mapToken = '<%-process.env.MAPBOX_TOKEN%>'
+    const station = <%-JSON.stringify(sta)%>
+</script>
+<script src="/scripts/showmap.js"></script>
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
